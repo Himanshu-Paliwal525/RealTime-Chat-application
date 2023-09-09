@@ -8,18 +8,28 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 
-<body>
-    <section class="chat">
-        <div class="brand">
-            <img src="/chat.png" alt="">
-            <h1>WebChat</h1>
-        </div>
-        <div class="container"></div>
-        <div id="message">
-            <input id="inp" placeholder="Write Your message....">
-            <img id="send" onclick="send()" src="/send.png" alt="">
-        </div>
-    </section>
+<body onload="names()">
+    <div class="box">
+        <section class="names">
+            <h1 class="connected">Active Users</h1>
+            <ul id="tot_users">
+
+            </ul>
+        </section>
+        <section class="chat">
+            <div class="brand">
+                <img src="/chat.png" alt="">
+                <h1>WebChat</h1>
+            </div>
+            <p id="userName"></p>
+            <div class="container">
+            </div>
+            <div id="message">
+                <input id="inp" placeholder="Write Your message....">
+                <img id="send" onclick="send()" src="/send.png" alt="">
+            </div>
+        </section>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/client.js"></script>
 </body>
