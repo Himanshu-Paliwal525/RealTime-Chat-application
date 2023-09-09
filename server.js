@@ -1,5 +1,4 @@
 const express = require('express')
-const { copyFileSync } = require('fs')
 const app = express()
 const http = require('http').createServer(app)
 
@@ -17,11 +16,28 @@ app.get('/', (req, res) => {
 
 // Socket
 
+let activeUsers = {};
 const io = require('socket.io')(http)
 
 io.on('connection', (socket) => {
-    console.log('connected')
+
+    console.log('connected', socket.id)
+
     socket.on('message', (msg) => {
-        socket.broadcast.emit('message',msg)
+        socket.broadcast.emit('message', msg)
     })
+
+    socket.on('showName', (person) => {
+        activeUsers[socket.id] = person;
+        socket.userName = person;
+        io.emit('showName', Object.values(activeUsers))
+    })
+
+    socket.on('disconnect', () => {
+        let user = socket.userName;
+        delete activeUsers[socket.id]
+        socket.broadcast.emit('disconnected', user, Object.values(activeUsers));
+    })
+
+
 })
